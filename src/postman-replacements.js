@@ -63,7 +63,6 @@ const replacePathVariables = (postmanCollection, pathReplacements) => {
                 postmanItem.name = utils.replacePathPartInUrl(postmanItem.name, pathReplacement);
                 postmanUrl.raw = utils.replacePathPartInUrl(postmanUrl.raw, pathReplacement);
                 postmanUrl.path =  utils.replacePathPartInPathArray(postmanUrl.path, pathReplacement);
-                console.log(postmanItem)
             });
         } else if (isFolder(postmanItem)) {
             replacePathVariables(postmanItem, pathReplacements);
