@@ -35,8 +35,20 @@ const traverseFilesSync = (dir) => {
     return results;
 };
 
+const replacePathPartInUrl = (url, part, newValue) => {
+    const urlParts = url.split("/");
+    var indexOfPart
+    urlParts.splice(
+        urlParts.indexOf(part) + 1,
+        1, newValue);
+
+    return urlParts.join("/");
+};
+
 module.exports.traverseFilesSync = traverseFilesSync;
 
 module.exports.caseInsensitiveEquals = (stringA, stringB) => {
     return stringA.toUpperCase() === stringB.toUpperCase();
 };
+
+module.exports.replacePathPartInUrl = replacePathPartInUrl;
