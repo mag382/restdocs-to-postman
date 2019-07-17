@@ -55,6 +55,18 @@ const replaceHost = (postmanCollection, hostReplacement) => {
     });
 };
 
+const replacePathVariables = (postmanCollection, pathReplacements) => {
+    postmanCollection.item.forEach(postmanItem => {
+        if (isRequest(postmanItem)) {
+
+        });
+        .forEach(insomniaResource => {
+            pathReplacements.forEach(pathReplacement => {
+                insomniaResource.url = utils.replacePathPartInUrl(insomniaResource.url, pathReplacement.part, pathReplacement.value);
+            });
+        });
+};
+
 module.exports.performPostmanReplacements = (postmanCollection, replacements) => {
     if (!replacements) {
         return;
@@ -64,5 +76,8 @@ module.exports.performPostmanReplacements = (postmanCollection, replacements) =>
     }
     if (replacements.host) {
         replaceHost(postmanCollection, replacements.host);
+    }
+    if (replacements.pathReplacements) {
+        replacePathVariables(postmanCollection, replacements.pathReplacements)
     }
 };

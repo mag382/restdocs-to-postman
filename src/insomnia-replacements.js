@@ -43,6 +43,17 @@ const replaceHost = (insomniaCollection, hostReplacement) => {
         });
 };
 
+const replacePathVariables = (insomniaCollection, pathReplacements) => {
+    insomniaCollection.resources
+        .filter(isRequest)
+        .forEach(insomniaResource => {
+            pathReplacements.forEach(pathReplacement => {
+                insomniaResource.url = utils.replacePathPartInUrl(insomniaResource.url, pathReplacement.part, pathReplacement.value);
+                insomniaResource.name = utils.replacePathPartInUrl(insomniaResource.name, pathReplacement.part, pathReplacement.value);
+            });
+        });
+};
+
 module.exports.performInsomniaReplacements = (insomniaCollection, replacements) => {
     if (!replacements) {
         return;
@@ -52,5 +63,9 @@ module.exports.performInsomniaReplacements = (insomniaCollection, replacements) 
     }
     if (replacements.host) {
         replaceHost(insomniaCollection, replacements.host);
+    }
+
+    if (replacements.pathReplacements) {
+        replacePathVariables(insomniaCollection, replacements.pathReplacements)
     }
 };
