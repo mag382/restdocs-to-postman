@@ -58,13 +58,17 @@ const replaceHost = (postmanCollection, hostReplacement) => {
 const replacePathVariables = (postmanCollection, pathReplacements) => {
     postmanCollection.item.forEach(postmanItem => {
         if (isRequest(postmanItem)) {
-
-        });
-        .forEach(insomniaResource => {
             pathReplacements.forEach(pathReplacement => {
-                insomniaResource.url = utils.replacePathPartInUrl(insomniaResource.url, pathReplacement.part, pathReplacement.value);
+                const postmanUrl = postmanItem.request.url;
+                postmanItem.name = utils.replacePathPartInUrl(postmanItem.name, pathReplacement);
+                postmanUrl.raw = utils.replacePathPartInUrl(postmanUrl.raw, pathReplacement);
+                postmanUrl.path =  utils.replacePathPartInPathArray(postmanUrl.path, pathReplacement);
+                console.log(postmanItem)
             });
-        });
+        } else if (isFolder(postmanItem)) {
+            replacePathVariables(postmanItem, pathReplacements);
+        }
+    });
 };
 
 module.exports.performPostmanReplacements = (postmanCollection, replacements) => {
