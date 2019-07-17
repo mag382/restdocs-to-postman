@@ -48,8 +48,8 @@ const replacePathVariables = (insomniaCollection, pathReplacements) => {
         .filter(isRequest)
         .forEach(insomniaResource => {
             pathReplacements.forEach(pathReplacement => {
-                insomniaResource.url = utils.replacePathPartInUrl(insomniaResource.url, pathReplacement.part, pathReplacement.value);
-                insomniaResource.name = utils.replacePathPartInUrl(insomniaResource.name, pathReplacement.part, pathReplacement.value);
+                insomniaResource.url = utils.replacePathPartInUrl(insomniaResource.url, pathReplacement);
+                insomniaResource.name = utils.replacePathPartInUrl(insomniaResource.name, pathReplacement);
             });
         });
 };

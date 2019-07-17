@@ -35,15 +35,23 @@ const traverseFilesSync = (dir) => {
     return results;
 };
 
-const replacePathPartInUrl = (url, part, newValue) => {
-    const urlParts = url.split("/");
-    var indexOfPart
-    urlParts.splice(
-        urlParts.indexOf(part) + 1,
-        1, newValue);
-
+const replacePathPartInUrl = (url, pathReplacement) => {
+    var urlParts = url.split("/");
+    urlParts = replacePathPartInPathArray(urlParts, pathReplacement);
     return urlParts.join("/");
 };
+
+const replacePathPartInPathArray = (urlParts, pathReplacement) => {
+    const oldValueRegex = new RegExp(pathReplacement.oldValueRegex);
+    var indexOfPart = urlParts.indexOf(pathReplacement.part);
+    if (indexOfPart != -1 && indexOfPart != urlParts.length - 1 && oldValueRegex.test(urlParts[indexOfPart + 1])) {
+        urlParts.splice(
+            urlParts.indexOf(pathReplacement.part) + 1,
+            1, pathReplacement.newValue);
+    }
+
+    return urlParts;
+}
 
 module.exports.traverseFilesSync = traverseFilesSync;
 
@@ -52,3 +60,5 @@ module.exports.caseInsensitiveEquals = (stringA, stringB) => {
 };
 
 module.exports.replacePathPartInUrl = replacePathPartInUrl;
+
+module.exports.replacePathPartInPathArray = replacePathPartInPathArray;
